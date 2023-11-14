@@ -19,12 +19,6 @@ Jiung Yang (Full-stack developer, adroid dev)
 This project is a Flutter application.
 Feel free to suggest PR!
 
-### BRANCH NAMING RULE
-```
-issuenum_issuetitle
-ex) 3_setup_UI
-```
-
 ### RUN APPLICATION
 ```
 flutter run
@@ -38,4 +32,10 @@ flutter run -d [emulator_name]
 ### LAUNCH EMULATOR
 ```
 flutter emulators --launch [emulator_name]
+```
+
+### BRANCH NAMING RULE
+```
+issuenum_issuetitle
+ex) 3_setup_UI
 ```
