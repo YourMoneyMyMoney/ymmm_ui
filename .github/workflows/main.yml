@@ -1,26 +1,32 @@
-name: Deploy to GitHub Pages
-
+name: Flutter Web
 on:
   push:
     branches:
       - master
-
 jobs:
   build:
+    name: Build Web
+    env:
+      my_secret: $
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v9
-
-      - name: Build
-        run: flutter build web --release
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/web
+          channel: 'dev'
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      - run: flutter build web --release
+        working-directory: ./YMMM_UI
+      - run: |
+          # 2. change path to [existed lib/main.dart path]/build/web
+          cd YMMM_UI/build/web
+          git init
+          git config --global user.email dmsql1678@gmail.com
+          git config --global user.name eunbeek
+          git status
+          git remote add origin https://github.com/YourMoneyMyMoney/ymmm_ui.git
+          git checkout -b gh-pages
+          git add --all
+          git commit -m "update"
+          git push origin gh-pages -f
