@@ -12,7 +12,7 @@ YMMM is a simple budget planner and tracker app. The app allows you and your par
 Sunghun Choi (Project Manager)
 Sunyoung Park (Designer, Quality Assurance analyst)
 Eunbee Kim (Full-stack developer, iOS dev)
-Jiung Yang (Full-stack developer, adroid dev)
+Jiung Yang (Full-stack developer, android dev)
 
 
 ## Getting Started
@@ -32,10 +32,4 @@ flutter run -d [emulator_name]
 ### LAUNCH EMULATOR
 ```
 flutter emulators --launch [emulator_name]
-```
-
-### BRANCH NAMING RULE
-```
-issuenum_issuetitle
-ex) 3_setup_UI
 ```
