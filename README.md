@@ -9,10 +9,10 @@ YMMM is a simple budget planner and tracker app. The app allows you and your par
 * Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
 
 ## Authors
-Sunghun Choi (Project Manager)
-Sunyoung Park (Designer, Quality Assurance analyst)
-Eunbee Kim (Full-stack developer, iOS dev)
-Jiung Yang (Full-stack developer, android dev)
+- Sunghun Choi (Project Manager)
+- Sunyoung Park (Designer, Quality Assurance analyst)
+- Eunbee Kim (Full-stack developer, iOS dev)
+- Jiung Yang (Full-stack developer, android dev)
 
 
 ## Getting Started
