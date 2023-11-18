@@ -7,19 +7,20 @@ jobs:
   build:
     name: Build Web
     env:
-      my_secret: $
+      my_secret: ${{secrets.ACCESS_TOKEN}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'dev'
+      - run: flutter clean
+      - run: flutter pub upgrade
       - run: flutter config --enable-web
       - run: flutter pub get
       - run: flutter build web --release
         working-directory: ./YMMM_UI
       - run: |
-          # 2. change path to [existed lib/main.dart path]/build/web
           cd YMMM_UI/build/web
           git init
           git config --global user.email dmsql1678@gmail.com
