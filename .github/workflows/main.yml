@@ -1,32 +1,24 @@
-name: Flutter Web
+name: Build and deploy flutter web app
+
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
+
 jobs:
   build:
-    name: Build Web
-    env:
-      my_secret: ${{secrets.ACCESS_TOKEN}}
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
         with:
-          channel: 'dev'
-      - run: flutter clean
+          channel: 'master'
       - run: flutter pub get
-      - run: flutter upgrade
-      - run: flutter build web --release
-        working-directory: ./YMMM_UI
-      - run: |
-          cd YMMM_UI/build/web
-          git init
-          git config --global user.email dmsql1678@gmail.com
-          git config --global user.name eunbeek
-          git status
-          git remote add origin https://github.com/YourMoneyMyMoney/ymmm_ui.git
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "update"
-          git push origin gh-pages -f
+      - run: flutter config --enable-web
+      - run: flutter build web --base-href "/${{ github.event.repository.name }}/"
+      
+      - run: git config user.name github-actions
+      - run: git config user.email github-actions@github.com
+      - run: git --work-tree build/web add --all
+      - run: git commit -m "Automatic deployment by github-actions"
+      - run: git push origin HEAD:gh_pages --force
