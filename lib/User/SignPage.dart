@@ -81,7 +81,7 @@ class _SignPageState extends  State<SignPage> {
             ),  
             Container(
               alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left:21, bottom: 40),
+              margin: const EdgeInsets.only(left:21, bottom: 30),
               child: const Text('8 characters minimum', 
                                 style: TextStyle(
                                   fontSize:10, color: Color.fromARGB(255, 97, 100, 107), 
