@@ -1,12 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/EmailVerificationPage.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class SignPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _SignPageState();
+}
+
+class _SignPageState extends  State<SignPage> {
+  final TextEditingController _emailFilter = new TextEditingController();
+  final TextEditingController _passwordFilter = new TextEditingController();
+  String _email = "";
+  String _password = "";
+
+  _SignPageState() {
+    _emailFilter.addListener(_emailListen);
+    _passwordFilter.addListener(_passwordListen);
+  }
+
+  void _emailListen() {
+    if (_emailFilter.text.isEmpty) {
+      _email = "";
+    } else {
+      _email = _emailFilter.text;
+    }
+  }
+
+  void _passwordListen() {
+    if (_passwordFilter.text.isEmpty) {
+      _password = "";
+    } else {
+      _password = _passwordFilter.text;
+    }
+  }
 
   @override
-  Widget build (BuildContext context) {
-    
+  Widget build (BuildContext context) { 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -25,12 +53,12 @@ class SignUp extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: const TextField(
-                key: Key('email'),
-                decoration: InputDecoration(
+              child: TextField(
+                controller: _emailFilter,
+                decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
-                      hintText: 'Enter valid email id as abc@gmail.com'
+                      hintText: 'abc@gmail.com'
                 ),
               ),
             ),
@@ -41,10 +69,10 @@ class SignUp extends StatelessWidget {
                 top: 20, 
                 bottom: 5
               ),
-              child: const TextField(
-                key: Key('password'),
+              child: TextField(
+                controller: _passwordFilter,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
                     hintText: 'Enter secure password'

@@ -138,7 +138,7 @@ class _LoginMainPageState extends State<LoginMainPage> {
               child: ElevatedButton(onPressed: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=>const SignUp()),
+                  MaterialPageRoute(builder: (context) => SignPage()),
                 ),
                 },
                 style: ElevatedButton.styleFrom(
@@ -153,7 +153,7 @@ class _LoginMainPageState extends State<LoginMainPage> {
             ElevatedButton(onPressed: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context)=>const SignUp()),
+                MaterialPageRoute(builder: (context) => SignPage()),
               ),
               }, 
               style: ElevatedButton.styleFrom(
