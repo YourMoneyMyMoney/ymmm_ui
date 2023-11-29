@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/EmailVerificationPage.dart';
 
 class SignPage extends StatefulWidget {
+  const SignPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _SignPageState();
 }
@@ -36,6 +38,7 @@ class _SignPageState extends  State<SignPage> {
   @override
   Widget build (BuildContext context) { 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -94,7 +97,7 @@ class _SignPageState extends  State<SignPage> {
               child: ElevatedButton(onPressed: () => {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context)=>const EmainVerification()),
+                    MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
                   ),
                 }, 
                 style: ElevatedButton.styleFrom(
@@ -135,7 +138,7 @@ class _SignPageState extends  State<SignPage> {
                   child: ElevatedButton(onPressed: () => {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=>const EmainVerification()),
+                        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
                       ),
                     }, 
                     style: ElevatedButton.styleFrom(
@@ -151,7 +154,7 @@ class _SignPageState extends  State<SignPage> {
                   child: ElevatedButton(onPressed: () => {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=>const EmainVerification()),
+                        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
                       ),
                     }, 
                     style: ElevatedButton.styleFrom(
@@ -177,7 +180,7 @@ class _SignPageState extends  State<SignPage> {
                     onPressed: () => {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=>const EmainVerification()),
+                        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
                       ),
                     }, 
                     style: TextButton.styleFrom(
