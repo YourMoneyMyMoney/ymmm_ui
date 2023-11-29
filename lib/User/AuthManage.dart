@@ -18,6 +18,7 @@ class AuthManage{
         email: email,
         password: pw,
       );
+      logger.w('trial');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         logger.w('The password provided is too weak.');
@@ -74,7 +75,6 @@ class AuthManage{
       // Name, email address, and profile photo URL
       final name = user.displayName;
       final email = user.email;
-      final photoUrl = user.photoURL;
 
       // Check if user's email is verified
       final emailVerified = user.emailVerified;
@@ -100,7 +100,6 @@ class AuthManage{
         // Name, email address, and profile photo URL
         final name = providerProfile.displayName;
         final emailAddress = providerProfile.email;
-        final profilePhoto = providerProfile.photoURL;
       }
     }
     return user;
@@ -110,16 +109,10 @@ class AuthManage{
     final user = FirebaseAuth.instance.currentUser;
     await user?.updateDisplayName(name);
   }
-  /// 유저 url 업데이트
-  Future<void> updateProfileUrl(String url) async{
-    final user = FirebaseAuth.instance.currentUser;
-    await user?.updatePhotoURL(url);
-  }
+
   /// 비밀번호 초기화 메일보내기
   Future<void> sendPasswordResetEmail(String email) async{
     await FirebaseAuth.instance.setLanguageCode("kr");
     await FirebaseAuth.instance.sendPasswordResetEmail(email:email);
   }
-
-
 }
