@@ -85,8 +85,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+      ),
       home: LoginMainPage(title: 'Sign Page'),
     );
   }
@@ -159,7 +162,7 @@ class _LoginMainPageState extends State<LoginMainPage> {
                 fixedSize: const Size(352, 55),
                 shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(16),),
               ), 
-              child: const Text('Sign In',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),))
+              child: const Text('Sign in',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),))
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
