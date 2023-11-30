@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:ymmm_ui/User/AuthManage.dart';
 import 'package:ymmm_ui/User/SignPage.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-    
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(const MyApp());
 }
 
@@ -40,7 +31,6 @@ class LoginMainPage extends StatefulWidget {
 }
 
 class _LoginMainPageState extends State<LoginMainPage> {
-  var auth = AuthManage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

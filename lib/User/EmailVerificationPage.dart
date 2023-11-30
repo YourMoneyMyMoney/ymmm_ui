@@ -148,7 +148,6 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                     context,
                     MaterialPageRoute(builder: (context)=>const SignDonePage()),
                   ),
-                  print('$_code1 $_code2 $_code3 $_code4 is completed')
                 }, 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),
