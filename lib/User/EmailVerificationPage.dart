@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/SignDonePage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EmainVerificationPage extends StatefulWidget {
 
-  const EmainVerificationPage({super.key, required this.processEmail});
+  const EmainVerificationPage({super.key, required this.processEmail, required this.processPwd, required this.processPlatform});
   final String processEmail;
+  final String processPwd;
+  final String processPlatform;
 
   @override
   State<StatefulWidget> createState() => _EmailVerificationPageState();
@@ -58,6 +62,21 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
     } else {
       _code4 = _code4Filter.text;
     }
+  }
+
+  void createAccount(String email, String password, String platform) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:3000/api/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+        'platform': platform
+      }),
+    );
+    print('${response.body}');
   }
   @override
   Widget build (BuildContext context) {
@@ -144,6 +163,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
               child: ElevatedButton(onPressed: () => {
+                  createAccount(widget.processEmail,widget.processPwd,widget.processPlatform),
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context)=>const SignDonePage()),

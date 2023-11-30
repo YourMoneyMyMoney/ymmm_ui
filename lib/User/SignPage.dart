@@ -97,7 +97,7 @@ class _SignPageState extends  State<SignPage> {
               child: ElevatedButton(onPressed: () => {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
+                    MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm',)),
                   ),
                 }, 
                 style: ElevatedButton.styleFrom(
@@ -136,10 +136,7 @@ class _SignPageState extends  State<SignPage> {
                 Container(
                   margin:const EdgeInsets.only(right: 20),
                   child: ElevatedButton(onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
-                      ),
+                      print('go to google login page')
                     }, 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
@@ -152,10 +149,7 @@ class _SignPageState extends  State<SignPage> {
                 Container(
                   margin: const EdgeInsets.only(left:20),
                   child: ElevatedButton(onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
-                      ),
+                      print('go to facebook login page')
                     }, 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
@@ -178,10 +172,7 @@ class _SignPageState extends  State<SignPage> {
                                                           fontWeight: FontWeight.w500)),
                   TextButton(
                     onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email)),
-                      ),
+                      print('Go to Login page'),
                     }, 
                     style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,
