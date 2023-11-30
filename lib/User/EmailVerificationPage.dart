@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ymmm_ui/User/SignDonePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -66,7 +67,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
 
   void createAccount(String email, String password, String platform) async {
     final response = await http.post(
-      Uri.parse('http://localhost:3000/api/user'),
+      Uri.parse('${dotenv.env['API_URL']}/user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
