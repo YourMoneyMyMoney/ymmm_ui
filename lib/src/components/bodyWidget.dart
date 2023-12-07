@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ymmm_ui/src/controller/androidHomeController.dart';
+import 'package:ymmm_ui/src/controller/HomeController.dart';
 
 class BodyWidget extends StatelessWidget {
-  final AndroidHomePageController controller;
+  final HomePageController controller;
 
   BodyWidget({required this.controller});
 

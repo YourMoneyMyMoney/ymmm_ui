@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AndroidHomePageController extends GetxController {
+class HomePageController extends GetxController {
   late PageController pageController;
   var userName = 'Jiung (UserName)'.obs;
   var showUserInfo = false.obs;

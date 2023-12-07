@@ -19,20 +19,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Colors.white,
       elevation: 0,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: IconButton(
-            onPressed: () {
-              print('오른쪽 상단의 알림 아이콘 클릭');
-            },
-            icon: SvgPicture.asset(
-              'assets/svg/icon_notifications_none_.svg',
-            ),
-            iconSize: 50,
-          ),
-        ),
-      ],
+      
     );
   }
 
