@@ -11,13 +11,25 @@ class SignPage extends StatefulWidget {
 class _SignPageState extends  State<SignPage> {
   final TextEditingController _emailFilter = new TextEditingController();
   final TextEditingController _passwordFilter = new TextEditingController();
+  final TextEditingController _confirmPwdFilter = new TextEditingController();
   String _email = "";
   String _password = "";
+  String _confirmPwd = "";
+  bool passwordVisible = false;
+  bool confirmPwdVisible = false;
 
   _SignPageState() {
     _emailFilter.addListener(_emailListen);
     _passwordFilter.addListener(_passwordListen);
+    _confirmPwdFilter.addListener(_confirmPwdListen);
   }
+
+  @override 
+  void initState(){ 
+    super.initState(); 
+    passwordVisible=true; 
+    confirmPwdVisible=true;
+  } 
 
   void _emailListen() {
     if (_emailFilter.text.isEmpty) {
@@ -34,6 +46,15 @@ class _SignPageState extends  State<SignPage> {
       _password = _passwordFilter.text;
     }
   }
+
+  void _confirmPwdListen() {
+    if (_confirmPwdFilter.text.isEmpty) {
+      _confirmPwd = "";
+    } else {
+      _confirmPwd = _confirmPwdFilter.text;
+    }
+  }
+
 
   @override
   Widget build (BuildContext context) { 
@@ -55,6 +76,7 @@ class _SignPageState extends  State<SignPage> {
               child: const Text('Create your account to manage your finance',style: TextStyle(fontSize: 14, fontFamily: 'Poppins', fontWeight:FontWeight.w400,)),
             ),
             Container(
+              height: 47,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: _emailFilter,
@@ -66,6 +88,7 @@ class _SignPageState extends  State<SignPage> {
               ),
             ),
             Container(
+              height: 70,
               padding: const EdgeInsets.only(
                 left: 20.0, 
                 right: 20.0, 
@@ -74,23 +97,70 @@ class _SignPageState extends  State<SignPage> {
               ),
               child: TextField(
                 controller: _passwordFilter,
-                obscureText: true,
-                decoration: const InputDecoration(
+                obscureText: passwordVisible,
+                decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
-                    hintText: 'Enter secure password'
+                    hintText: 'Enter secure password',
+                    suffixIcon: IconButton(
+                      icon: Icon(passwordVisible 
+                          ? Icons.visibility 
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(
+                          (){
+                            passwordVisible = !passwordVisible;
+                          }
+                        );
+                      },
+                    ),
+                ),
+              ),
+            ),  
+            Container(
+              height: 65,
+              padding: const EdgeInsets.only(
+                left: 20.0, 
+                right: 20.0, 
+                top: 15, 
+                bottom: 5
+              ),
+              child: TextField(
+                controller: _confirmPwdFilter,
+                obscureText: confirmPwdVisible,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirm password',
+                    hintText: 'Re-enter your password',
+                    suffixIcon: IconButton(
+                      icon: Icon(confirmPwdVisible 
+                          ? Icons.visibility 
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(
+                          (){
+                            confirmPwdVisible = !confirmPwdVisible;
+                          }
+                        );
+                      },
+                    ),
                 ),
               ),
             ),  
             Container(
               alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left:21, bottom: 30),
-              child: const Text('8 characters minimum', 
+              margin: const EdgeInsets.only(left:21, bottom: 30, top: 10),
+              child: Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(right: 7), child:  Icon(Icons.check_circle_outline,size:15),),
+                  Text('I accept the terms and privacy policy', 
                                 style: TextStyle(
-                                  fontSize:10, color: Color.fromARGB(255, 97, 100, 107), 
+                                  fontSize:10, color: Color.fromARGB(255, 0, 0, 0), 
                                   fontFamily: 'Poppins', 
                                   fontWeight: FontWeight.w500)
-                                ),
+                  ),
+                ],
+              ),
             ),
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
@@ -118,7 +188,7 @@ class _SignPageState extends  State<SignPage> {
                   ),       
                   Container(
                     margin: const EdgeInsets.only(left:7, right:7),
-                    child: const Text("or sign in with", style: TextStyle(
+                    child: const Text("or sign up with", style: TextStyle(
                                                           fontSize:10, color: Color.fromARGB(255, 97, 100, 107), 
                                                           fontFamily: 'Poppins', 
                                                           fontWeight: FontWeight.w500)),   

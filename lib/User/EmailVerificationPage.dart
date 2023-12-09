@@ -89,26 +89,26 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children:<Widget>[
             Container(
-              margin: const EdgeInsets.only(bottom:40),
+              margin: const EdgeInsets.only(bottom:30),
               child: const Text('Verify your email address',style: TextStyle(fontSize: 24, fontFamily: 'Poppins', fontWeight:FontWeight.w800,)),
             ),
             Container(
               margin: const EdgeInsets.only(bottom: 5),
-              child: Text('Enter the ETP code that we sent to your email ${widget.processEmail}',style: const TextStyle(fontSize: 10, fontFamily: 'Poppins', fontWeight:FontWeight.w500,)),
+              child: const Text('We’ve sent a code to ymmmpaln@gmail.com',style: const TextStyle(fontSize: 10, fontFamily: 'Poppins', fontWeight:FontWeight.w500,)),
             ),
             Container(
               margin: const EdgeInsets.only(top:5),
-              child: const Text('Be careful not to share the code with anyone.',style: TextStyle(fontSize: 10, fontFamily: 'Poppins', fontWeight:FontWeight.w500,)),
+              child: Text('${widget.processEmail}',style: TextStyle(fontSize: 10, fontFamily: 'Poppins', fontWeight:FontWeight.w500,)),
             ),
             Container(
-              margin: const EdgeInsets.all(30),
+              margin: const EdgeInsets.only(top: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     width: 54,
                     height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:4),
+                    padding: const EdgeInsets.symmetric(horizontal:8),
                     child: TextField(
                       controller: _code1Filter,
                       decoration: const InputDecoration(
@@ -122,7 +122,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                   Container(
                     width: 54,
                     height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:4),
+                    padding: const EdgeInsets.symmetric(horizontal:8),
                     child: TextField(
                       controller: _code2Filter,
                       decoration: const InputDecoration(
@@ -135,7 +135,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                    Container(
                     width: 54,
                     height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:4),
+                    padding: const EdgeInsets.symmetric(horizontal:8),
                     child: TextField(
                       controller: _code3Filter,
                       decoration: const InputDecoration(
@@ -148,7 +148,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                    Container(
                     width: 54,
                     height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:4),
+                    padding: const EdgeInsets.symmetric(horizontal:8),
                     child: TextField(
                       controller: _code4Filter,
                       decoration: const InputDecoration(
@@ -160,6 +160,33 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                   )
                 ],
               ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20, bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('I didn’t receive a code ',style: TextStyle(
+                                                          fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
+                                                          fontFamily: 'Poppins', 
+                                                          fontWeight: FontWeight.w500)),
+                  TextButton(
+                    onPressed: () => {
+                      print('Resenc the code'),
+                    }, 
+                    style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          minimumSize: const Size(50, 30),
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          alignment: Alignment.centerLeft),
+                    child: const Text('Resend', style: TextStyle(
+                                                          fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
+                                                          fontFamily: 'Poppins', 
+                                                          fontWeight: FontWeight.w700)                                
+                    ),
+                  ),
+                ],
+              )
             ),
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
@@ -174,6 +201,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),
                   foregroundColor: Colors.white,
                   minimumSize: const Size(325, 55),
+                  shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(16),),
                 ), 
                 child: const Text('Verify Email',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),),
               ),
