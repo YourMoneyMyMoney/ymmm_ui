@@ -183,10 +183,6 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                           borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
                           borderRadius: BorderRadius.circular(8), 
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
-                          borderRadius: BorderRadius.circular(8), 
-                        ),
                         counterText: '',
                       ),
                       keyboardType: TextInputType.number,
@@ -206,10 +202,6 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
-                          borderRadius: BorderRadius.circular(8), 
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
                           borderRadius: BorderRadius.circular(8), 
                         ),
                         counterText: '',
@@ -233,10 +225,6 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                           borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
                           borderRadius: BorderRadius.circular(8), 
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
-                          borderRadius: BorderRadius.circular(8), 
-                        ),
                         counterText: '',
                       ),
                       keyboardType: TextInputType.number,
@@ -256,10 +244,6 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
-                          borderRadius: BorderRadius.circular(8), 
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
                           borderRadius: BorderRadius.circular(8), 
                         ),
                         counterText: '',
