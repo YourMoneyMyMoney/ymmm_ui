@@ -1,0 +1,1 @@
+var remoteServerConfiguration = {"server" : "https://emailauthymmm-b38e206c56ee.herokuapp.com", "serverKey" : "0Tklaa"};

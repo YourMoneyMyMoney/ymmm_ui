@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ymmm_ui/auth.config.dart';
 import 'package:ymmm_ui/User/EmailVerificationPage.dart';
+import 'package:email_auth/email_auth.dart';
 
 class SignPage extends StatefulWidget {
   const SignPage({super.key});
@@ -17,6 +19,7 @@ class _SignPageState extends  State<SignPage> {
   String _confirmPwd = "";
   bool passwordVisible = false;
   bool confirmPwdVisible = false;
+  late EmailAuth emailAuth;
 
   _SignPageState() {
     _emailFilter.addListener(_emailListen);
@@ -29,6 +32,12 @@ class _SignPageState extends  State<SignPage> {
     super.initState(); 
     passwordVisible=true; 
     confirmPwdVisible=true;
+    // Initialize the package
+    emailAuth = EmailAuth(
+      sessionName: "Ymmm",
+    );
+
+    emailAuth.config(remoteServerConfiguration);
   } 
 
   void _emailListen() {
@@ -55,6 +64,14 @@ class _SignPageState extends  State<SignPage> {
     }
   }
 
+  void sendOTP () async {
+    var res = await emailAuth.sendOtp(recipientMail: _emailFilter.value.text,otpLength: 4);
+    if(res){
+      print("sendOTP");
+    }else{
+      print("not send");
+    }
+  }
 
   @override
   Widget build (BuildContext context) { 
@@ -165,9 +182,10 @@ class _SignPageState extends  State<SignPage> {
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
               child: ElevatedButton(onPressed: () => {
+                  sendOTP(),
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm',)),
+                    MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm', emailAuth: emailAuth,)),
                   ),
                 }, 
                 style: ElevatedButton.styleFrom(

@@ -3,13 +3,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ymmm_ui/User/SignDonePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:email_auth/email_auth.dart';
 
 class EmainVerificationPage extends StatefulWidget {
 
-  const EmainVerificationPage({super.key, required this.processEmail, required this.processPwd, required this.processPlatform});
+  const EmainVerificationPage({super.key, required this.processEmail, required this.processPwd, required this.processPlatform, required this.emailAuth});
   final String processEmail;
   final String processPwd;
   final String processPlatform;
+  final EmailAuth emailAuth;
 
   @override
   State<StatefulWidget> createState() => _EmailVerificationPageState();
@@ -25,13 +27,14 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
   String _code2 = "";
   String _code3 = "";
   String _code4 = "";
-
+  // late EmailAuth emailAuth;
+  
   _EmailVerificationPageState(){
     _code1Filter.addListener(_code1Listen);
     _code2Filter.addListener(_code2Listen);
     _code3Filter.addListener(_code3Listen);
     _code4Filter.addListener(_code4Listen);
-  }
+  } 
 
   void _code1Listen(){
     if(_code1Filter.text.isEmpty){
@@ -79,6 +82,17 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
     );
     print('${response.body}');
   }
+
+  void verify() {
+    var otp = _code1Filter.text+_code2Filter.text+_code3Filter.text+_code4Filter.text;
+    var res = widget.emailAuth.validateOtp(recipientMail: widget.processEmail, userOtp: otp);
+    if(res){
+      createAccount(widget.processEmail,widget.processPwd,widget.processPlatform);
+    }else{
+      print("fail");
+    }
+  }
+
   @override
   Widget build (BuildContext context) {
     return Scaffold(
@@ -191,7 +205,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
               child: ElevatedButton(onPressed: () => {
-                  createAccount(widget.processEmail,widget.processPwd,widget.processPlatform),
+                  verify(),
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context)=>const SignDonePage()),
