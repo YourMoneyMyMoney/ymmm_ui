@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:ymmm_ui/User/SignDonePage.dart';
+import 'package:ymmm_ui/User/SignUp/SignUpDonePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:email_auth/email_auth.dart';
@@ -27,7 +28,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
   String _code2 = "";
   String _code3 = "";
   String _code4 = "";
-  // late EmailAuth emailAuth;
+  bool isValid = true; 
   
   _EmailVerificationPageState(){
     _code1Filter.addListener(_code1Listen);
@@ -69,28 +70,75 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
   }
 
   void createAccount(String email, String password, String platform) async {
-    final response = await http.post(
-      Uri.parse('${dotenv.env['API_URL']}/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'password': password,
-        'platform': platform
-      }),
-    );
-    print('${response.body}');
+    // NEED TO IMPLEMENTED API FIRST
+    // final response = await http.post(
+    //   Uri.parse('${dotenv.env['API_URL']}/user'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode(<String, String>{
+    //     'email': email,
+    //     'password': password,
+    //     'platform': platform
+    //   }),
+    // );
+    // if(response.statusCode == 200){
+    //   Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
+    // }
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
   }
 
   void verify() {
     var otp = _code1Filter.text+_code2Filter.text+_code3Filter.text+_code4Filter.text;
     var res = widget.emailAuth.validateOtp(recipientMail: widget.processEmail, userOtp: otp);
     if(res){
+      setState(()=>isValid = true);
       createAccount(widget.processEmail,widget.processPwd,widget.processPlatform);
     }else{
+      setState(()=>isValid = false);
       print("fail");
     }
+  }
+
+  void sendOTP () async {
+    var res = await widget.emailAuth.sendOtp(recipientMail: widget.processEmail,otpLength: 4);
+    if(res){
+      print("resend");
+    }else{
+      print("not send");
+    }
+  }
+
+  dynamic validation(){
+    if(!isValid){
+      return [
+                    const Text('Wrong code. please try again',style: TextStyle(
+                                                              fontSize:12, color: Color.fromARGB(255, 234, 67, 53), 
+                                                              fontFamily: 'Poppins', 
+                                                              fontWeight: FontWeight.w500)),
+      ];
+    }
+    return [ 
+            const Text('I didn’t receive a code ',style: TextStyle(
+                                                              fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
+                                                              fontFamily: 'Poppins', 
+                                                              fontWeight: FontWeight.w500)),
+            TextButton(
+              onPressed: () => {
+              sendOTP()
+              }, 
+              style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(50, 30),
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    alignment: Alignment.centerLeft),
+              child: const Text('Resend', style: TextStyle(
+                                                    fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
+                                                    fontFamily: 'Poppins', 
+                                                    fontWeight: FontWeight.w700)                                
+              ),
+            ),
+            ];
   }
 
   @override
@@ -115,63 +163,110 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
               child: Text('${widget.processEmail}',style: TextStyle(fontSize: 10, fontFamily: 'Poppins', fontWeight:FontWeight.w500,)),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 30),
+              margin: const EdgeInsets.only(top: 30, left:20, right: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: 54,
-                    height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:8),
+                    width: 64,
+                    height: 64,
                     child: TextField(
                       controller: _code1Filter,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Color.fromRGBO(217, 217, 217, 1),
-                        border: OutlineInputBorder(),
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        counterText: '',
                       ),
                       keyboardType: TextInputType.number,
                     ),
                   ),
                   Container(
-                    width: 54,
-                    height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:8),
+                    width: 64,
+                    height: 64,
                     child: TextField(
                       controller: _code2Filter,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Color.fromRGBO(217, 217, 217, 1),
-                        border: OutlineInputBorder(),
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        counterText: '',
                       ),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
-                   Container(
-                    width: 54,
-                    height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:8),
+                  Container(
+                    width: 64,
+                    height: 64,
                     child: TextField(
                       controller: _code3Filter,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Color.fromRGBO(217, 217, 217, 1),
-                        border: OutlineInputBorder(),
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        counterText: '',
                       ),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
-                   Container(
-                    width: 54,
-                    height: 54,
-                    padding: const EdgeInsets.symmetric(horizontal:8),
+                  Container(
+                    width: 64,
+                    height: 64,
                     child: TextField(
                       controller: _code4Filter,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Color.fromRGBO(217, 217, 217, 1),
-                        border: OutlineInputBorder(),
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: isValid? Color.fromARGB(255, 217, 217, 217): Colors.red),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromARGB(255, 97, 100, 107)),
+                          borderRadius: BorderRadius.circular(8), 
+                        ),
+                        counterText: '',
                       ),
+                      keyboardType: TextInputType.number,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -179,38 +274,12 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
               margin: const EdgeInsets.only(top: 20, bottom: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text('I didn’t receive a code ',style: TextStyle(
-                                                          fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
-                                                          fontFamily: 'Poppins', 
-                                                          fontWeight: FontWeight.w500)),
-                  TextButton(
-                    onPressed: () => {
-                      print('Resenc the code'),
-                    }, 
-                    style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                          minimumSize: const Size(50, 30),
-                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                          alignment: Alignment.centerLeft),
-                    child: const Text('Resend', style: TextStyle(
-                                                          fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
-                                                          fontFamily: 'Poppins', 
-                                                          fontWeight: FontWeight.w700)                                
-                    ),
-                  ),
-                ],
+                children: validation()
               )
             ),
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
-              child: ElevatedButton(onPressed: () => {
-                  verify(),
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)=>const SignDonePage()),
-                  ),
-                }, 
+              child: ElevatedButton(onPressed: () => { verify() }, 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),
                   foregroundColor: Colors.white,

@@ -67,7 +67,9 @@ class _SignPageState extends  State<SignPage> {
   void sendOTP () async {
     var res = await emailAuth.sendOtp(recipientMail: _emailFilter.value.text,otpLength: 4);
     if(res){
-      print("sendOTP");
+      Navigator.push(context, 
+        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm', emailAuth: emailAuth,))
+      );
     }else{
       print("not send");
     }
@@ -181,13 +183,7 @@ class _SignPageState extends  State<SignPage> {
             ),
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
-              child: ElevatedButton(onPressed: () => {
-                  sendOTP(),
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm', emailAuth: emailAuth,)),
-                  ),
-                }, 
+              child: ElevatedButton(onPressed: () => { sendOTP() }, 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),
                   foregroundColor: Colors.white,
