@@ -1,10 +1,11 @@
-# Title Format
+---
+name: Feature request
+about: Suggest an idea for this project
+title: "[DEV/DESIGN/PM]"
+labels: ''
+assignees: ''
 
-When creating an issue, please follow this title format:
-
-- [DEV/DESIGN/BUG] Brief description of the issue
-
-This helps us quickly identify and categorize your report.
+---
 
 # Task
 
@@ -25,28 +26,3 @@ This helps us quickly identify and categorize your report.
 **Child tasks(if necessary):**
 
 <!--  If relevant, please provide a link to the child tasks. -->
-
----
-# Bug
-
-## Issue Description
-
-<!-- Provide a brief description of the issue -->
-
-## Steps to Reproduce
-
-<!-- Describe the steps to reproduce the issue -->
-
-## Expected Results
-
-<!-- Describe what you expected to happen -->
-
-## Actual Results
-
-<!-- Describe what actually happened -->
-
-## Additional Information
-
-<!-- Add any additional information or context -->
-
-Please make sure to search for existing requests before creating a new one to avoid duplication.
