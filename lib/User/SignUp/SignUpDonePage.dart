@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ymmm_ui/User/LogIn/LoginPage.dart';
 
 class SignUpDonePage extends StatelessWidget {
   const SignUpDonePage({super.key});
@@ -31,7 +32,7 @@ class SignUpDonePage extends StatelessWidget {
                       Container(
               margin: const EdgeInsets.only(top:40), 
               child: ElevatedButton(onPressed: () => {
-                  print("go to login")
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()))
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),

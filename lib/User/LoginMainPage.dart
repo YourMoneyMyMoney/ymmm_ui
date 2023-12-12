@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/SignUp/SignMethodPage.dart';
+import 'package:ymmm_ui/User/LogIn/LoginPage.dart';
 
 class LoginMainPage extends StatefulWidget {
   const LoginMainPage({super.key});
@@ -56,7 +57,7 @@ class _LoginMainPageState extends State<LoginMainPage> {
             ElevatedButton(onPressed: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SignMethodPage()),
+                MaterialPageRoute(builder: (context) => LoginPage()),
               ),
               }, 
               style: ElevatedButton.styleFrom(

@@ -1,43 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:ymmm_ui/auth.config.dart';
-import 'package:ymmm_ui/User/EmailVerificationPage.dart';
-import 'package:email_auth/email_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:ymmm_ui/src/pages/Layout.dart';
 
-class SignPage extends StatefulWidget {
-  const SignPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _SignPageState();
+  State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class _SignPageState extends  State<SignPage> {
+class _LoginPageState extends  State<LoginPage> {
   final TextEditingController _emailFilter = new TextEditingController();
   final TextEditingController _passwordFilter = new TextEditingController();
-  final TextEditingController _confirmPwdFilter = new TextEditingController();
   String _email = "";
   String _password = "";
-  String _confirmPwd = "";
   bool passwordVisible = false;
-  bool confirmPwdVisible = false;
-  late EmailAuth emailAuth;
 
-  _SignPageState() {
+
+  _LoginPageState() {
     _emailFilter.addListener(_emailListen);
     _passwordFilter.addListener(_passwordListen);
-    _confirmPwdFilter.addListener(_confirmPwdListen);
   }
 
   @override 
   void initState(){ 
     super.initState(); 
     passwordVisible=true; 
-    confirmPwdVisible=true;
-    // Initialize the package
-    emailAuth = EmailAuth(
-      sessionName: "Ymmm",
-    );
-
-    emailAuth.config(remoteServerConfiguration);
   } 
 
   void _emailListen() {
@@ -56,22 +47,23 @@ class _SignPageState extends  State<SignPage> {
     }
   }
 
-  void _confirmPwdListen() {
-    if (_confirmPwdFilter.text.isEmpty) {
-      _confirmPwd = "";
-    } else {
-      _confirmPwd = _confirmPwdFilter.text;
-    }
-  }
-
-  void sendOTP () async {
-    var res = await emailAuth.sendOtp(recipientMail: _emailFilter.value.text,otpLength: 4);
-    if(res){
-      Navigator.push(context, 
-        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm', emailAuth: emailAuth,))
-      );
-    }else{
-      print("not send");
+  void login() async {
+    // NEED TO IMPLEMENTED API FIRST
+    final response = await http.post(
+      Uri.parse('${dotenv.env['API_URL']}/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': _emailFilter.text,
+        'password': _passwordFilter.text,
+        'platform': 'ymmm'
+      }),
+    );
+    if(response.statusCode == 200){
+      // ignore: use_build_context_synchronously
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
+      print(response);
     }
   }
 
@@ -86,13 +78,8 @@ class _SignPageState extends  State<SignPage> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left:20, bottom: 15),
-              child: const Text('Create Account', style: TextStyle(fontSize: 32, fontFamily: 'Poppins', fontWeight:FontWeight.w800,)),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left:20, bottom: 40),
-              child: const Text('Create your account to manage your finance',style: TextStyle(fontSize: 14, fontFamily: 'Poppins', fontWeight:FontWeight.w400,)),
+              margin: const EdgeInsets.only(left:20, bottom: 50),
+              child: const Text('Login', style: TextStyle(fontSize: 32, fontFamily: 'Poppins', fontWeight:FontWeight.w800,)),
             ),
             Container(
               height: 47,
@@ -137,59 +124,25 @@ class _SignPageState extends  State<SignPage> {
               ),
             ),  
             Container(
-              height: 65,
-              padding: const EdgeInsets.only(
-                left: 20.0, 
-                right: 20.0, 
-                top: 15, 
-                bottom: 5
-              ),
-              child: TextField(
-                controller: _confirmPwdFilter,
-                obscureText: confirmPwdVisible,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Confirm password',
-                    hintText: 'Re-enter your password',
-                    suffixIcon: IconButton(
-                      icon: Icon(confirmPwdVisible 
-                          ? Icons.visibility_outlined  
-                          : Icons.visibility_off_outlined, color:Color.fromARGB(255, 115, 118, 126),),
-                      onPressed: () {
-                        setState(
-                          (){
-                            confirmPwdVisible = !confirmPwdVisible;
-                          }
-                        );
-                      },
-                    ),
-                ),
-              ),
-            ),  
-            Container(
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left:21, bottom: 30, top: 10),
-              child: Row(
-                children: [
-                  Padding(padding: EdgeInsets.only(right: 7), child:  Icon(Icons.check_circle_outline,size:15),),
-                  Text('I accept the terms and privacy policy', 
+              child: 
+                  Text('Forgot password?', 
                                 style: TextStyle(
                                   fontSize:10, color: Color.fromARGB(255, 0, 0, 0), 
                                   fontFamily: 'Poppins', 
                                   fontWeight: FontWeight.w500)
                   ),
-                ],
-              ),
             ),
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
-              child: ElevatedButton(onPressed: () => { sendOTP() }, 
+              child: ElevatedButton(onPressed: () => { login() }, 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),
                   foregroundColor: Colors.white,
                   minimumSize: const Size(325, 55),
                 ), 
-                child: const Text('Create Account',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),),
+                child: const Text('Login',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),),
               ),
             ),
             Container(
@@ -202,7 +155,7 @@ class _SignPageState extends  State<SignPage> {
                   ),       
                   Container(
                     margin: const EdgeInsets.only(left:7, right:7),
-                    child: const Text("or sign up with", style: TextStyle(
+                    child: const Text("or Login with", style: TextStyle(
                                                           fontSize:10, color: Color.fromARGB(255, 97, 100, 107), 
                                                           fontFamily: 'Poppins', 
                                                           fontWeight: FontWeight.w500)),   

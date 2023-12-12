@@ -70,22 +70,21 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
   }
 
   void createAccount(String email, String password, String platform) async {
-    // NEED TO IMPLEMENTED API FIRST
-    // final response = await http.post(
-    //   Uri.parse('${dotenv.env['API_URL']}/user'),
-    //   headers: <String, String>{
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   },
-    //   body: jsonEncode(<String, String>{
-    //     'email': email,
-    //     'password': password,
-    //     'platform': platform
-    //   }),
-    // );
-    // if(response.statusCode == 200){
-    //   Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
-    // }
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
+    final response = await http.post(
+      Uri.parse('${dotenv.env['API_URL']}/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+        'platform': platform
+      }),
+    );
+    if(response.statusCode == 200){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
+    }
+    // Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
   }
 
   void verify() {
