@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/SignUp/SignMethodPage.dart';
 
 class LoginMainPage extends StatefulWidget {
-  const LoginMainPage({super.key, required this.title});
-
-  final String title;
+  const LoginMainPage({super.key});
 
   @override
   State<LoginMainPage> createState() => _LoginMainPageState();

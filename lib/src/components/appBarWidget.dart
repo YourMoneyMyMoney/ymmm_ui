@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-
 
   @override
   Widget build(BuildContext context) {

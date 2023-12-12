@@ -164,6 +164,8 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
             ),
             Container(
               margin: const EdgeInsets.only(top: 30, left:20, right: 20),
+              height: 70,
+              width: 300,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
