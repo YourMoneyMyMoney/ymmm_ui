@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ymmm_ui/src/components/appBarWidget.dart';
 import 'package:ymmm_ui/src/components/bodyWidget.dart';
-
 import 'package:ymmm_ui/src/controller/HomeController.dart';
 
 class homePage extends StatelessWidget {
