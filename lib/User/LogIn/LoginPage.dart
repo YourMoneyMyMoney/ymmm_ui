@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ymmm_ui/User/SignUp/SignPage.dart';
 import 'package:ymmm_ui/auth.config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -203,20 +204,20 @@ class _LoginPageState extends  State<LoginPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text('Already have an account? ',style: TextStyle(
+                  const Text('Don’t have an account? ',style: TextStyle(
                                                           fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
                                                           fontFamily: 'Poppins', 
                                                           fontWeight: FontWeight.w500)),
                   TextButton(
                     onPressed: () => {
-                      print('Go to Login page'),
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> SignPage()))
                     }, 
                     style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,
                                           minimumSize: const Size(50, 30),
                                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           alignment: Alignment.centerLeft),
-                    child: const Text('Log In', style: TextStyle(
+                    child: const Text('Sign Up', style: TextStyle(
                                                           fontSize:12, color: Color.fromARGB(255, 97, 100, 107), 
                                                           fontFamily: 'Poppins', 
                                                           fontWeight: FontWeight.w700)                                
