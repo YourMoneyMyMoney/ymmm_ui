@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ymmm_ui/User/LogIn/LoginPage.dart';
 import 'package:ymmm_ui/User/SignUp/SignPage.dart';
 
 class SignMethodPage extends StatefulWidget {
@@ -112,7 +113,10 @@ class _SignMethodPageState extends  State<SignMethodPage> {
                                                           fontWeight: FontWeight.w500)),
                   TextButton(
                     onPressed: () => {
-                      print('Go to Login page'),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>LoginPage()),
+                      ),
                     }, 
                     style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ymmm_ui/User/LogIn/LoginPage.dart';
 import 'package:ymmm_ui/auth.config.dart';
 import 'package:ymmm_ui/User/EmailVerificationPage.dart';
 import 'package:email_auth/email_auth.dart';
@@ -256,7 +257,10 @@ class _SignPageState extends  State<SignPage> {
                                                           fontWeight: FontWeight.w500)),
                   TextButton(
                     onPressed: () => {
-                      print('Go to Login page'),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>LoginPage()),
+                      ),
                     }, 
                     style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero,
