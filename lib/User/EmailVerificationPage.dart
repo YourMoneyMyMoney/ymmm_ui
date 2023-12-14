@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ymmm_ui/User/SignUp/SignUpDonePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:email_auth/email_auth.dart';
+import 'package:ymmm_ui/api/userApi.dart';
 
 class EmainVerificationPage extends StatefulWidget {
 
@@ -69,22 +69,11 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
     }
   }
 
-  void createAccount(String email, String password, String platform) async {
-    final response = await http.post(
-      Uri.parse('${dotenv.env['API_URL']}/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'password': password,
-        'platform': platform
-      }),
-    );
+ void createAccount(String email, String password, String platform) async {
+    final response = await createAccountToApi(email,password,platform);
     if(response.statusCode == 200){
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
     }
-    // Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
   }
 
   void verify() {

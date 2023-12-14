@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/SignUp/SignPage.dart';
+import 'package:ymmm_ui/api/userApi.dart';
 import 'package:ymmm_ui/auth.config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ymmm_ui/src/pages/Layout.dart';
 
 class LoginPage extends StatefulWidget {
@@ -50,17 +50,7 @@ class _LoginPageState extends  State<LoginPage> {
 
   void login() async {
     // NEED TO IMPLEMENTED API FIRST
-    final response = await http.post(
-      Uri.parse('${dotenv.env['API_URL']}/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': _emailFilter.text,
-        'password': _passwordFilter.text,
-        'platform': 'ymmm'
-      }),
-    );
+    final response = await loginToApi(_emailFilter.text, _passwordFilter.text, 'ymmm');
     if(response.statusCode == 200){
       // ignore: use_build_context_synchronously
       Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
