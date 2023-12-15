@@ -63,6 +63,7 @@ class _LoginPageState extends  State<LoginPage> {
       await storage.write( key: 'login', value: payload["uid"] );
       await storage.write( key: 'email', value: payload["email"] );
       await storage.write( key: 'name', value: payload["name"]);
+      await storage.write( key: 'token', value: token);
       Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
     }
   }
