@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:ymmm_ui/User/LogIn/LogOutPage.dart';
 import 'package:ymmm_ui/User/SignUp/SignPage.dart';
 import 'package:ymmm_ui/service/userApi.dart';
 import 'package:ymmm_ui/auth.config.dart';
