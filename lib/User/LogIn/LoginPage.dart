@@ -1,13 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ymmm_ui/User/LogIn/LogOutPage.dart';
 import 'package:ymmm_ui/User/SignUp/SignPage.dart';
-import 'package:ymmm_ui/api/userApi.dart';
+import 'package:ymmm_ui/service/userApi.dart';
 import 'package:ymmm_ui/auth.config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:ymmm_ui/src/pages/Layout.dart';
+import 'package:ymmm_ui/service/jwtService.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -19,7 +23,8 @@ class _LoginPageState extends  State<LoginPage> {
   String _email = "";
   String _password = "";
   bool passwordVisible = false;
-
+  late String userInfo;
+  static final storage = FlutterSecureStorage();
 
   _LoginPageState() {
     _emailFilter.addListener(_emailListen);
@@ -31,7 +36,6 @@ class _LoginPageState extends  State<LoginPage> {
     super.initState(); 
     passwordVisible=true; 
   } 
-
   void _emailListen() {
     if (_emailFilter.text.isEmpty) {
       _email = "";
@@ -52,9 +56,14 @@ class _LoginPageState extends  State<LoginPage> {
     // NEED TO IMPLEMENTED API FIRST
     final response = await loginToApi(_emailFilter.text, _passwordFilter.text, 'ymmm');
     if(response.statusCode == 200){
-      // ignore: use_build_context_synchronously
+      // logIn(response,storage);
+      Map<String, dynamic> data =jsonDecode(response.body);
+      String token = data["token"];
+      Map<String, dynamic> payload = parseJwt(token);
+      await storage.write( key: 'login', value: payload["uid"] );
+      await storage.write( key: 'email', value: payload["email"] );
+      await storage.write( key: 'name', value: payload["name"]);
       Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
-      print(response);
     }
   }
 

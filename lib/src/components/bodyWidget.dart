@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:ymmm_ui/User/LoginMainPage.dart';
+import 'package:ymmm_ui/service/jwtService.dart';
 import 'package:ymmm_ui/src/controller/HomeController.dart';
 
-class BodyWidget extends StatelessWidget {
+class BodyWidget extends StatefulWidget {
   final HomePageController controller;
-
   BodyWidget({required this.controller});
+
+  @override
+  State<BodyWidget> createState() => _BodyWidgetState();
+}
+
+class _BodyWidgetState extends State<BodyWidget> {
+  static final storage = FlutterSecureStorage();
+  dynamic userInfo='';
+  String userName ='';
+  @override
+  void initState(){ 
+    super.initState();  
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  } 
+
+  _asyncMethod() async {
+    userInfo = await storage.read(key: "name");
+    if(userInfo != '' && userInfo != null){
+      setState((){
+        userName = userInfo;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +44,26 @@ class BodyWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Hi, ${controller.userName.value}',
+                'Hi, ${userName}',
                 style: TextStyle(fontSize: 24),
               ),
               IconButton(
                 onPressed: () {
-                  controller.toggleUserInfo();
+                  widget.controller.toggleUserInfo();
                 },
                 icon: Image.asset('assets/png/Ellipse.png'),
               ),
+              IconButton(
+                onPressed: (){
+                  logOut(storage);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginMainPage()));
+                },
+                icon: Icon(Icons.logout)
+              )
             ],
           ),
           Obx(() {
-            if (controller.showUserInfo.value) {
+            if (widget.controller.showUserInfo.value) {
               return Padding(
                 padding: EdgeInsets.only(top: 20.0),
                 child: Column(

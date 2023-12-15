@@ -4,7 +4,7 @@ import 'package:ymmm_ui/User/SignUp/SignUpDonePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:email_auth/email_auth.dart';
-import 'package:ymmm_ui/api/userApi.dart';
+import 'package:ymmm_ui/service/userApi.dart';
 
 class EmainVerificationPage extends StatefulWidget {
 

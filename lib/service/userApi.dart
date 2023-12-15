@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 const apiUrl = "https://ymmm-core.vercel.app/api";
+
 Future<http.Response> createAccountToApi(String email, String password, String platform) async {
   final response = await http.post(
     Uri.parse('${apiUrl}/user'),
