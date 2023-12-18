@@ -39,6 +39,5 @@ String _decodeBase64(String str) {
 
 void logOut(FlutterSecureStorage storage) async {
   await  storage.delete(key: "login");
-  await  storage.delete(key: "email");
-  await  storage.delete(key: "name");
+  await  storage.delete(key: "token");
 }

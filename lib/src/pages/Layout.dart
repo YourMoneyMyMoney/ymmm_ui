@@ -27,7 +27,7 @@ class _LayoutState extends State<Layout> {
   } 
 
   _asyncMethod() async {
-    userName = await storage.read(key: "name");
+    userName = await storage.read(key: "login");
     if(userName == ''){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginMainPage()));
     }

@@ -4,17 +4,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 const apiUrl = "https://ymmm-core.vercel.app/api";
-
 const storage = FlutterSecureStorage();
-Future<http.Response> createAccountToApi(String email, String password, String platform) async {
+Future<http.Response> createAccountToApi(String email, String password, String name, String platform) async {
   final response = await http.post(
-    Uri.parse('$apiUrl/user'),
+    Uri.parse('$apiUrl/signup'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
       'email': email,
       'password': password,
+      'name': name,
       'platform': platform
     }),
   );
@@ -32,18 +32,6 @@ Future<http.Response> loginToApi(String email, String password, String platform)
         'password': password,
         'platform': platform
       }),
-    );
-  return response;
-}
-
-Future<http.Response> getUserAll()async{
-  dynamic token = await storage.read(key: "token");
-  final response = await http.get(
-      Uri.parse('$apiUrl/user'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Token': token
-      },
     );
   return response;
 }

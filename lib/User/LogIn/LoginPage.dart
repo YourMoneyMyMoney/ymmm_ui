@@ -9,6 +9,8 @@ import 'dart:convert';
 import 'package:ymmm_ui/src/pages/Layout.dart';
 import 'package:ymmm_ui/service/jwtService.dart';
 
+import '../../models/model.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
@@ -59,9 +61,8 @@ class _LoginPageState extends  State<LoginPage> {
       Map<String, dynamic> data =jsonDecode(response.body);
       String token = data["token"];
       Map<String, dynamic> payload = parseJwt(token);
-      await storage.write( key: 'login', value: payload["uid"] );
-      await storage.write( key: 'email', value: payload["email"] );
-      await storage.write( key: 'name', value: payload["name"]);
+      var val = jsonEncode(Login(payload["userId"].toString(), payload["email"],payload["name"], payload["platform"]));
+      await storage.write( key: 'login', value: val );
       await storage.write( key: 'token', value: token);
       Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
     }

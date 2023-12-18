@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ymmm_ui/User/LoginMainPage.dart';
 import 'package:ymmm_ui/service/jwtService.dart';
 import 'package:ymmm_ui/src/controller/HomeController.dart';
+
+import '../../models/model.dart';
 
 class BodyWidget extends StatefulWidget {
   final HomePageController controller;
@@ -26,10 +30,13 @@ class _BodyWidgetState extends State<BodyWidget> {
   } 
 
   _asyncMethod() async {
-    userInfo = await storage.read(key: "name");
+    userInfo = await storage.read(key: "login");
+    Map<String, dynamic> valueMap = json.decode(userInfo);
+    Login user = Login.fromJson(valueMap);
+    
     if(userInfo != '' && userInfo != null){
       setState((){
-        userName = userInfo;
+        userName = user.name;
       });
     }
   }

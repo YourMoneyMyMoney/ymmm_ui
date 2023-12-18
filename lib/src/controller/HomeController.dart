@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 class HomePageController extends GetxController {
-  static final storage = FlutterSecureStorage();
   late PageController pageController;
   var userName = 'Jiung (UserName)'.obs;
   var showUserInfo = false.obs;
