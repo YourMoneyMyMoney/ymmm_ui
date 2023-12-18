@@ -8,7 +8,7 @@ class HomePageController extends GetxController {
   var currentIndex = 0.obs;
 
 
-void onInit(){
+void onInit() async {
   pageController = PageController(initialPage: 0);
   super.onInit();
 }

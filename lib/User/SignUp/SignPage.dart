@@ -14,25 +14,23 @@ class SignPage extends StatefulWidget {
 class _SignPageState extends  State<SignPage> {
   final TextEditingController _emailFilter = new TextEditingController();
   final TextEditingController _passwordFilter = new TextEditingController();
-  final TextEditingController _confirmPwdFilter = new TextEditingController();
+  final TextEditingController _nameFilter = new TextEditingController();
   String _email = "";
   String _password = "";
-  String _confirmPwd = "";
+  String _name = "";
   bool passwordVisible = false;
-  bool confirmPwdVisible = false;
   late EmailAuth emailAuth;
 
   _SignPageState() {
     _emailFilter.addListener(_emailListen);
     _passwordFilter.addListener(_passwordListen);
-    _confirmPwdFilter.addListener(_confirmPwdListen);
+    _nameFilter.addListener(_nameListen);
   }
 
   @override 
   void initState(){ 
     super.initState(); 
     passwordVisible=true; 
-    confirmPwdVisible=true;
     // Initialize the package
     emailAuth = EmailAuth(
       sessionName: "Ymmm",
@@ -57,11 +55,11 @@ class _SignPageState extends  State<SignPage> {
     }
   }
 
-  void _confirmPwdListen() {
-    if (_confirmPwdFilter.text.isEmpty) {
-      _confirmPwd = "";
+  void _nameListen() {
+    if (_nameFilter.text.isEmpty) {
+      _name = "";
     } else {
-      _confirmPwd = _confirmPwdFilter.text;
+      _name = _nameFilter.text;
     }
   }
 
@@ -69,7 +67,7 @@ class _SignPageState extends  State<SignPage> {
     var res = await emailAuth.sendOtp(recipientMail: _emailFilter.value.text,otpLength: 4);
     if(res){
       Navigator.push(context, 
-        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processPlatform: 'ymmm', emailAuth: emailAuth,))
+        MaterialPageRoute(builder: (context)=>EmainVerificationPage(processEmail:_email, processPwd: _password, processName: _name, processPlatform: 'ymmm', emailAuth: emailAuth,))
       );
     }else{
       print("not send");
@@ -146,24 +144,11 @@ class _SignPageState extends  State<SignPage> {
                 bottom: 5
               ),
               child: TextField(
-                controller: _confirmPwdFilter,
-                obscureText: confirmPwdVisible,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Confirm password',
-                    hintText: 'Re-enter your password',
-                    suffixIcon: IconButton(
-                      icon: Icon(confirmPwdVisible 
-                          ? Icons.visibility_outlined  
-                          : Icons.visibility_off_outlined, color:Color.fromARGB(255, 115, 118, 126),),
-                      onPressed: () {
-                        setState(
-                          (){
-                            confirmPwdVisible = !confirmPwdVisible;
-                          }
-                        );
-                      },
-                    ),
+                controller: _nameFilter,
+                decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'name',
+                      hintText: 'First name'
                 ),
               ),
             ),  

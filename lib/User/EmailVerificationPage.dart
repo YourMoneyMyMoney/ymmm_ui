@@ -4,13 +4,14 @@ import 'package:ymmm_ui/User/SignUp/SignUpDonePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:email_auth/email_auth.dart';
-import 'package:ymmm_ui/api/userApi.dart';
+import 'package:ymmm_ui/service/userApi.dart';
 
 class EmainVerificationPage extends StatefulWidget {
 
-  const EmainVerificationPage({super.key, required this.processEmail, required this.processPwd, required this.processPlatform, required this.emailAuth});
+  const EmainVerificationPage({super.key, required this.processEmail, required this.processPwd, required this.processName, required this.processPlatform, required this.emailAuth});
   final String processEmail;
   final String processPwd;
+  final String processName;
   final String processPlatform;
   final EmailAuth emailAuth;
 
@@ -69,8 +70,8 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
     }
   }
 
- void createAccount(String email, String password, String platform) async {
-    final response = await createAccountToApi(email,password,platform);
+ void createAccount(String email, String password, String name, String platform) async {
+    final response = await createAccountToApi(email,password,name,platform);
     if(response.statusCode == 200){
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpDonePage()));
     }
@@ -81,7 +82,7 @@ class _EmailVerificationPageState extends State<EmainVerificationPage> {
     var res = widget.emailAuth.validateOtp(recipientMail: widget.processEmail, userOtp: otp);
     if(res){
       setState(()=>isValid = true);
-      createAccount(widget.processEmail,widget.processPwd,widget.processPlatform);
+      createAccount(widget.processEmail,widget.processPwd,widget.processName, widget.processPlatform);
     }else{
       setState(()=>isValid = false);
       print("fail");
