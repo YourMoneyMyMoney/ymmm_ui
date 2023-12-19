@@ -10,6 +10,7 @@ jobs:
 
     env:
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      API_URL: ${{ secrets.API_URL }}
 
     steps:
       - name: Checkout code

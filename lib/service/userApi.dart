@@ -1,9 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const apiUrl = "https://ymmm-core.vercel.app/api";
+var apiUrl =  dotenv.env['API_URL'];
+
 const storage = FlutterSecureStorage();
 Future<http.Response> createAccountToApi(String email, String password, String name, String platform) async {
   final response = await http.post(
