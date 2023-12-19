@@ -68,7 +68,6 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - .env
     - assets/images/Logo/facebookLogo.png
     - assets/images/Logo/googleLogo.png
     - assets/images/
