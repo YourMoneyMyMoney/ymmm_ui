@@ -1,8 +1,12 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';//android
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:ymmm_ui/User/LogIn/CreateBook.dart';
 import 'package:ymmm_ui/User/LogIn/LoginPage.dart';
+import 'package:ymmm_ui/models/model.dart';
 
 import 'package:ymmm_ui/src/pages/addPage.dart';
 import 'package:ymmm_ui/src/pages/homePage.dart';
@@ -22,6 +26,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   dynamic userInfo = '';
   bool isLogin = false;
+  bool isFirstLogin = false;
   static final storage = FlutterSecureStorage();
 
   @override
@@ -36,6 +41,17 @@ class _MyAppState extends State<MyApp> {
   _asyncMethod() async {
     userInfo = await storage.read(key: "login");
     if(userInfo != '' && userInfo != null){
+      Map<String, dynamic> valueMap = json.decode(userInfo);
+      Login user = Login.fromJson(valueMap);
+      if(user.books.isEmpty){
+        setState(() {
+          isFirstLogin = true;
+        });
+      }else{
+        setState(() {
+          isFirstLogin = false;
+        });
+      }
       setState(() {
         isLogin = true;
       });
@@ -58,7 +74,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/Chart', page: () => ChartPage()),
         GetPage(name: '/Setting', page: () => SettingsPage()),
       ],
-      home: !isLogin ? LoginMainPage(): Layout()
+      home: !isLogin ? LoginMainPage(): isFirstLogin? CreateBook(): Layout(),
       
     );
   }

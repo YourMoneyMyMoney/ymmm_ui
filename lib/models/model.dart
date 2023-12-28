@@ -3,19 +3,23 @@ class Login {
   final String email;
   final String name;
   final String platform;
+  final List<dynamic> books;
 
-  Login(this.userId, this.email, this.name, this.platform);
+  Login(this.userId, this.email, this.name, this.platform, this.books);
 
   Login.fromJson(Map<String, dynamic> json)
       : userId = json['userId'],
         email = json['email'],
         name = json['name'],
-        platform = json['platform'];
+        platform = json['platform'],
+        books = json['books'];
+
 
   Map<String, dynamic> toJson() => {
         'userId': userId,
         'email': email,
         'name': name,
-        'platform': platform
+        'platform': platform,
+        'books': books
       };
 }

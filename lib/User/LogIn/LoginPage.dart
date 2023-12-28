@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
+import 'package:ymmm_ui/User/LogIn/CreateBook.dart';
 import 'package:ymmm_ui/User/SignUp/SignPage.dart';
 import 'package:ymmm_ui/service/userApi.dart';
 import 'package:ymmm_ui/auth.config.dart';
@@ -61,10 +63,12 @@ class _LoginPageState extends  State<LoginPage> {
       Map<String, dynamic> data =jsonDecode(response.body);
       String token = data["token"];
       Map<String, dynamic> payload = parseJwt(token);
-      var val = jsonEncode(Login(payload["userId"].toString(), payload["email"],payload["name"], payload["platform"]));
+      var val = jsonEncode(Login(payload["userId"].toString(), payload["email"],payload["name"], payload["platform"], payload["books"]));
       await storage.write( key: 'login', value: val );
       await storage.write( key: 'token', value: token);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
+      Map<String, dynamic> valueMap = json.decode(val);
+      Login user = Login.fromJson(valueMap);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> user.books.isEmpty? CreateBook(): Layout()));
     }
   }
 
