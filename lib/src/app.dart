@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:ymmm_ui/User/LogIn/CreateBook.dart';
 import 'package:ymmm_ui/User/LogIn/LoginPage.dart';
 import 'package:ymmm_ui/models/model.dart';
+import 'package:ymmm_ui/service/bookApi.dart';
 
 import 'package:ymmm_ui/src/pages/addPage.dart';
 import 'package:ymmm_ui/src/pages/homePage.dart';
@@ -27,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   dynamic userInfo = '';
   bool isLogin = false;
   bool isFirstLogin = false;
+  Map<int, String> currencyList = {};
   static final storage = FlutterSecureStorage();
 
   @override
@@ -44,6 +46,7 @@ class _MyAppState extends State<MyApp> {
       Map<String, dynamic> valueMap = json.decode(userInfo);
       Login user = Login.fromJson(valueMap);
       if(user.books.isEmpty){
+        fetchCurrencyList();
         setState(() {
           isFirstLogin = true;
         });
@@ -62,6 +65,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void fetchCurrencyList() async {
+    final response = await getCurrencies();
+    if(response.statusCode == 200 && isFirstLogin){
+      var data = jsonDecode(response.body);
+      data.forEach((currency)=>{
+        currencyList[currency['id']] = currency['name']
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -74,7 +87,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/Chart', page: () => ChartPage()),
         GetPage(name: '/Setting', page: () => SettingsPage()),
       ],
-      home: !isLogin ? LoginMainPage(): isFirstLogin? CreateBook(): Layout(),
+      home: !isLogin ? LoginMainPage(): isFirstLogin? CreateBook(currencyList: currencyList): Layout()
       
     );
   }
