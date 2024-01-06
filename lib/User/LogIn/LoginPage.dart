@@ -63,24 +63,34 @@ class _LoginPageState extends State<LoginPage> {
       Map<String, dynamic> data =jsonDecode(response.body);
       String token = data["token"];
       Map<String, dynamic> payload = parseJwt(token);
-      var val = jsonEncode(Login(payload["userId"].toString(), payload["email"],payload["name"], payload["platform"], payload["books"]));
+      var val = jsonEncode(Login(payload["userId"].toString(), payload["email"],payload["name"], payload["platform"]));
       await storage.write( key: 'login', value: val );
       await storage.write( key: 'token', value: token);
-      Map<String, dynamic> valueMap = json.decode(val);
-      Login user = Login.fromJson(valueMap);
-      moveAfterLogin(user.books.isEmpty);
+      moveAfterLogin();
     }
   }
 
-  void moveAfterLogin(bool isFirstLogin) async {
-    Map<int, String> currencyList = {};
-    final response = await getCurrencies();
-    if(response.statusCode == 200){
-      var data = jsonDecode(response.body);
-      data.forEach((currency)=>{
-        currencyList[currency['id']] = currency['name']
+  void moveAfterLogin() async {
+    Map<int, String> bookList = {};
+    final bookResponse = await getBooks();
+    if(bookResponse.statusCode == 200){
+      var data = jsonDecode(bookResponse.body);
+      data.forEach((book)=>{
+        bookList[book['book']['id']] = book['book']['title']
       });
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> isFirstLogin? CreateBook(currencyList: currencyList,): Layout()));
+    }
+    if(bookList.isEmpty){
+      Map<int, String> currencyList = {};
+      final response = await getCurrencies();
+      if(response.statusCode == 200){
+        var data = jsonDecode(response.body);
+        data.forEach((currency)=>{
+          currencyList[currency['id']] = currency['name']
+        });
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateBook(currencyList: currencyList,)));
+      }
+    }else{
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
     }
   }
 
