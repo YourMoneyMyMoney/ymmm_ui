@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,6 +19,22 @@ Future<http.Response> getBooks() async {
   return response;
 }
 
+Future<http.Response> createNewBook(String title, int cid) async {
+  dynamic token = await storage.read(key: "token");
+  final response = await http.post(
+    Uri.parse('$apiUrl/book'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'token': token,
+    },
+    body: jsonEncode({
+      'title': title,
+      'currencyId': cid,
+    }),
+  );
+  return response;
+}
+
 Future<http.Response> getCurrencies() async {
   final response = await http.get(
     Uri.parse('$apiUrl/currency'),
@@ -25,4 +43,3 @@ Future<http.Response> getCurrencies() async {
     },);
   return response;
 }
-

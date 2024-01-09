@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ymmm_ui/User/LoginMainPage.dart';
+import 'package:ymmm_ui/service/bookApi.dart';
 import 'package:ymmm_ui/service/userApi.dart';
+import 'package:ymmm_ui/src/pages/Layout.dart';
 
 class CreateBook extends StatefulWidget {
   late Map<int, String> currencyList;
@@ -16,7 +18,7 @@ class _CreateBookState extends  State<CreateBook> {
   final TextEditingController _membersFilter = new TextEditingController();
   String _title = "";
   String _members = "";
-  late String dropdownValue;
+  late String dropdownValue = widget.currencyList.entries.first.value;
 
 
   _SignPageState() {
@@ -45,6 +47,17 @@ class _CreateBookState extends  State<CreateBook> {
     }
   }
 
+  Future<bool> submitBook() async{
+    int currencyId = widget.currencyList.keys.firstWhere((k)=> widget.currencyList[k] == dropdownValue, orElse: () => 0);
+    final response = await createNewBook(_titleFilter.text,currencyId);
+
+    if(response.statusCode == 200){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
   @override
   Widget build (BuildContext context) { 
     return Scaffold(
@@ -115,9 +128,9 @@ class _CreateBookState extends  State<CreateBook> {
             SizedBox(height: 10),
             Container(
               margin: const EdgeInsets.symmetric( horizontal: 20,),
-              child: ElevatedButton(onPressed: () => {
-                  print(_membersFilter.text),
-                  print(_titleFilter.text),
+              child: ElevatedButton(onPressed: () async => {
+                  print(dropdownValue),
+                  if(await submitBook()) Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()))
                 }, 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 97, 100, 107),
@@ -125,20 +138,6 @@ class _CreateBookState extends  State<CreateBook> {
                   minimumSize: const Size(325, 55),
                 ), 
                 child: const Text('Submit',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric( horizontal: 20,),
-              child: ElevatedButton(onPressed: () => {
-                logOut(),
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginMainPage()))
-               }, 
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 97, 100, 107),
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(325, 55),
-                ), 
-                child: const Text('Logout',style: TextStyle(fontSize: 16, fontFamily: 'Work Sans'),),
               ),
             ),
           ],
