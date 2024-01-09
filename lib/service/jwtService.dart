@@ -36,8 +36,3 @@ String _decodeBase64(String str) {
 
   return utf8.decode(base64Url.decode(output));
 }
-
-void logOut(FlutterSecureStorage storage) async {
-  await  storage.delete(key: "login");
-  await  storage.delete(key: "token");
-}

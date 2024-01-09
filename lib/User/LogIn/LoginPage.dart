@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
+import 'package:ymmm_ui/User/LogIn/CreateBook.dart';
 import 'package:ymmm_ui/User/SignUp/SignPage.dart';
+import 'package:ymmm_ui/service/bookApi.dart';
 import 'package:ymmm_ui/service/userApi.dart';
 import 'package:ymmm_ui/auth.config.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +20,7 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends  State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailFilter = new TextEditingController();
   final TextEditingController _passwordFilter = new TextEditingController();
   String _email = "";
@@ -64,6 +66,30 @@ class _LoginPageState extends  State<LoginPage> {
       var val = jsonEncode(Login(payload["userId"].toString(), payload["email"],payload["name"], payload["platform"]));
       await storage.write( key: 'login', value: val );
       await storage.write( key: 'token', value: token);
+      moveAfterLogin();
+    }
+  }
+
+  void moveAfterLogin() async {
+    Map<int, String> bookList = {};
+    final bookResponse = await getBooks();
+    if(bookResponse.statusCode == 200){
+      var data = jsonDecode(bookResponse.body);
+      data.forEach((book)=>{
+        bookList[book['book']['id']] = book['book']['title']
+      });
+    }
+    if(bookList.isEmpty){
+      Map<int, String> currencyList = {};
+      final response = await getCurrencies();
+      if(response.statusCode == 200){
+        var data = jsonDecode(response.body);
+        data.forEach((currency)=>{
+          currencyList[currency['id']] = currency['name']
+        });
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateBook(currencyList: currencyList,)));
+      }
+    }else{
       Navigator.push(context, MaterialPageRoute(builder: (context)=> Layout()));
     }
   }
