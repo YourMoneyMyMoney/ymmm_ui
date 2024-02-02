@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ymmm_ui/User/LoginMainPage.dart';
-import 'package:ymmm_ui/service/jwtService.dart';
+import 'package:ymmm_ui/service/userApi.dart';
 import 'package:ymmm_ui/src/controller/HomeController.dart';
 
 import '../../models/model.dart';
@@ -62,7 +62,7 @@ class _BodyWidgetState extends State<BodyWidget> {
               ),
               IconButton(
                 onPressed: (){
-                  logOut(storage);
+                  logOut();
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginMainPage()));
                 },
                 icon: Icon(Icons.logout)
